@@ -37,12 +37,12 @@ class Language
         return $this->id;
     }
 
-    public function getname(): ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setname(string $name): static
+    public function setName(string $name): static
     {
         $this->name = $name;
 

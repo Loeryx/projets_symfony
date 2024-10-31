@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController {
     
     #[Route(path: '/', name: 'page_home')]
-    public function accueil() {
+    public function home() {
         return $this->render(view: 'index.html.twig');
     }
 }

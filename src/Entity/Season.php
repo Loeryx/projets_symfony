@@ -24,6 +24,10 @@ class Season
     #[ORM\OneToMany(targetEntity: Episode::class, mappedBy: 'season')]
     private Collection $episodes;
 
+    #[ORM\ManyToOne(inversedBy: 'seasons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Serie $serie = null;
+
     public function __construct()
     {
         $this->episodes = new ArrayCollection();
@@ -73,6 +77,15 @@ class Season
             }
         }
 
+        return $this;
+    }
+
+    public function getSerie() : ?Serie {
+        return $this->serie;
+    }
+
+    public function setSerie(?Serie $serie) : static {
+        $this->serie = $serie;
         return $this;
     }
 }
