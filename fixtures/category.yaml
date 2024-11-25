@@ -1,0 +1,13 @@
+App\Entity\Category:
+  category_action:
+    name: "action"
+    label: "Action"
+  category_adventure:
+    name: "adventure"
+    label: "Adventure"
+  category_animation:
+    name: "animation"
+    label: "Animation"
+  category_comedy:
+    name: "comedy"
+    label: "Comedy"

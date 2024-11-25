@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -28,7 +27,7 @@ class User
     private ?string $password = null;
 
     #[ORM\Column(enumType: UserAccountStatusEnum::class)]
-    private ?UserAccountStatusEnum $accountStatus = null;
+    private ?UserAccountStatusEnum $accountStatus = UserAccountStatusEnum::ACTIVE;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Subscription $currentSubscription = null;
