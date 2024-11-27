@@ -3,8 +3,10 @@ App\Entity\User:
     username: '<name()>'
     email: '<email()>'
     password: '<password()>'
+    roles: ['ROLE_USER']
 
   user_admin:
     username: 'admin'
     email: 'admin@gmail.com'
     password: 'monsupermotdepasse'
+    roles: ['ROLE_ADMIN']

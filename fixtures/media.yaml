@@ -13,17 +13,17 @@ App\Entity\Media:
       - '@lang_en'
 
 App\Entity\Movie:
-  movie{1..50} (extends media):
+  media_movie{1..50} (extends media):
     title: "Film <current()> - <name()>"
 
 App\Entity\Serie:
-  serie{1..50} (extends media):
+  media_serie{1..50} (extends media):
     title: "Serie <current()> - <name()>"
 
 App\Entity\Season:
   season{1..50}:
     number: "<numberBetween(1, 10)>"
-    serie: '@serie*'
+    serie: '@media_serie*'
 
 App\Entity\Episode:
   episode{1..50}:
@@ -33,7 +33,7 @@ App\Entity\Episode:
     season: '@season*'
 
 App\Entity\WatchHistory:
-  watch_history_{1..500}:
+  watch_history_{1..50}:
     lastWatchedAt: "<dateTimeBetween('-1 week', '+1 week')>"
     numberOfViews: '<numberBetween(1, 100)>'
     watcher: '@user_*'
