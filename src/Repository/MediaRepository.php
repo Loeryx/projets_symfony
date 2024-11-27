@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Media;
+use Cassandra\Collection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,15 @@ class MediaRepository extends ServiceEntityRepository
         parent::__construct($registry, Media::class);
     }
 
-    //    /**
-    //     * @return Media[] Returns an array of Media objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Media
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findPopularMedia(int $maxResult) : array
+    {
+        // Media OneToMany WatchHistory
+        return $this->createQueryBuilder('m')
+            -> leftJoin('m.watchHistory', 'wh')
+            -> groupBy('m.id')
+            -> orderBy('COUNT(wh)', 'DESC')
+            -> setMaxResults($maxResult)
+            -> getQuery()
+            -> getResult();
+    }
 }

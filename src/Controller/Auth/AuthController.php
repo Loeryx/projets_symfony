@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Auth;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,23 +16,27 @@ class AuthController extends AbstractController
     }
 
     #[Route(path: '/register', name:'page_register')]
-    public function login() {
+    public function login(): Response
+    {
         return $this->render('auth/register.html.twig');
     }
 
     #[Route(path: '/forgot-password', name:'page_forgot_password')]
-    public function forgotPassword() {
+    public function forgotPassword(): Response
+    {
         return $this->render('auth/forgot.html.twig');
     }
 
     #[Route(path: '/reset-password', name:'page_reset_password')]
-    public function resetPassword() {
+    public function resetPassword(): Response
+    {
         return $this->render('auth/reset.html.twig');
     }
 
     #[Route(path: '/abonnements', name:'page_abonnements')]
-    public function abonnements() {
-        return $this->render('auth/abonnements.html.twig');
+    public function abonnements(): Response
+    {
+        return $this->render('other/abonnements.html.twig');
     }
 
 }

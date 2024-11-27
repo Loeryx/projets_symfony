@@ -135,6 +135,14 @@
 
                 <div class="relative w-full flex text-gray-700 font-medium">
                     <select class="appearance-none w-full bg-white border border-gray-200 px-7 py-3 rounded-md shadow transition">
+                        {% for myPlaylist in myPlaylists %}
+                            <option value="{{ myPlaylist.id }}">{{ myPlaylist.name }}</option>
+                        {% endfor %}
+
+                        {% for subscribedPlaylist in subscribedPlaylists %}
+                            <option value="{{ subscribedPlaylist.playlist.id }}">{{ subscribedPlaylist.playlist.name }}</option>
+                        {% endfor %}
+
                         <option>#1 - Ma liste custom (43 films & 12 séries)</option>
                         <option>#2 - Film aviations (14 films & 29 séries)</option>
                         <option>#3 - Film a voir avec les potos (14 films & 10 séries) - Liste de John Doe</option>
