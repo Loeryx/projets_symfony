@@ -26,6 +26,7 @@ security:
     role_hierarchy:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
         ROLE_ADMIN: ROLE_USER
+        ROLE_BANNED: ROLE_BANNED
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

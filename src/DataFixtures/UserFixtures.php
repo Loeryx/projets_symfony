@@ -55,7 +55,6 @@ class UserFixtures extends Fixture
     protected function createUser(int $i, ObjectManager $manager) : User {
         $user = new User();
         $user->setUsername("test_{$i}");
-        $user->setPassword("test");
         $user->setEmail("test_{$i}@gmail.com");
         $manager->persist($user);
 
