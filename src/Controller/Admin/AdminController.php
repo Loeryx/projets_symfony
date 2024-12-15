@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route(path: '/admin')]
 class AdminController extends AbstractController {
-    #[Route(path: '/admin', name:'page_admin')]
-
-    public function accueil() {
+    
+    #[Route(path: '/', name:'page_admin')]
+    public function homepage() {
         return $this->render('admin/admin.html.twig');
     }
 
-    #[Route(path: '/admin/add_films', name:'page_admin_add_films')]
-    public function admin_add_films() {
+    #[Route(path: '/add_movies', name:'admin_add_movies')]
+    public function admin_add_movies() {
         return $this->render('admin/admin_add_films.html.twig');
     }
 
-    #[Route(path: '/admin/films', name:'page_admin_films')]
-    public function admin_films() {
+    #[Route(path: '/movies', name:'admin_movies')]
+    public function admin_movies() {
         return $this->render('admin/admin_films.html.twig');
     }
 
