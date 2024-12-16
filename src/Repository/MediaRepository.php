@@ -21,7 +21,7 @@ class MediaRepository extends ServiceEntityRepository
     {
         // Media OneToMany WatchHistory
         return $this->createQueryBuilder('m')
-            -> leftJoin('m.watchHistory', 'wh')
+            -> leftJoin('m.watchHistories', 'wh')
             -> groupBy('m.id')
             -> orderBy('COUNT(wh)', 'DESC')
             -> setMaxResults($maxResult)
