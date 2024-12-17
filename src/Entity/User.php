@@ -77,6 +77,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $resetToken = null;
 
+    private ?string $plainPassword = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -344,5 +346,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->resetToken = $resetToken;
         return $this;
+    }
+
+    public function setPlainPassword(?string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
     }
 }

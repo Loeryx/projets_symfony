@@ -2,10 +2,10 @@ App\Entity\User:
   user_{1..50}:
     username: '<name()>'
     email: '<email()>'
-    password: '<password()>'
+    plainPassword: '<password()>'
 
   user_admin:
     username: 'admin'
     email: 'admin@gmail.com'
-    password: 'monsupermotdepasse'
+    plainPassword: 'monsupermotdepasse'
     roles: ['ROLE_ADMIN']
