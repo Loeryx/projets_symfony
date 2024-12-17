@@ -6,19 +6,25 @@ namespace App\Controller\Auth;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Faker\Core\Uuid;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AuthController extends AbstractController
 {
     #[Route('/login', 'page_login')]
-    public function login(): Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->render('auth/login.html.twig');
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->render('auth/login.html.twig', [
+            'last_username' => $lastUsername,
+        ]);
     }
 
     #[Route('/register', 'page_register')]
@@ -33,23 +39,18 @@ class AuthController extends AbstractController
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer,
-        UserPasswordHasherInterface $userPasswordHasher
     ): Response
     {
         if($request->isMethod('POST')) {
             $email = $request->get('email');
-            $password = $request->get('password');
-            $passwordConfirmation = $request->get('passwordConfirmation');
-
-            $user = $userRepository->findOneBy(['email' => $email]);
-            if($user) {
-                if($password === $passwordConfirmation) {
-                    $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
+            if($email) {
+                $user = $userRepository->findOneBy(['email' => $email]);
+                if($user) {
+                    $this->addFlash('error', 'Aucun utilisateur ne corresponds.');
                 } else {
-                    $user->setPassword($userPasswordHasher->hashPassword($user, $password));;
-                    $user->setResetToken(null);
+                    $resetPassword = Uuid::v4()->toString();
+                    $user->setResetPassword($resetPassword);
                     $entityManager->flush();
-                    $this->addFlash('success', 'Votre mot de passe a été réinitialisé avec succès.');
 
                     $resetUrl = $this->generateUrl('page_reset', ['token' => $user->getResetToken()], 0);
                     $emailContent = (new TemplatedEmail())
@@ -63,7 +64,8 @@ class AuthController extends AbstractController
                             'resetUrl' => $resetUrl,
                         ]);
                     $mailer->send($emailContent);
-                    return $this->redirectToRoute('page_login');
+
+                    $this->addFlash('Success', 'Email envoyé');
                 }
             }
         }
@@ -77,7 +79,6 @@ class AuthController extends AbstractController
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
         Request $request,
-        UserPasswordHasherInterface $userPasswordHasher
     ): Response
     {
         $user = $userRepository->findOneBy(['resetToken' => $token]);
@@ -92,9 +93,10 @@ class AuthController extends AbstractController
             if($password === $passwordConfirmation) {
                 $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
             } else {
-                $user->setPassword($userPasswordHasher->hashPassword($user, $passwordConfirmation));;
+                $user->setPassword($password);
                 $user->setResetToken(null);
                 $entityManager->flush();
+
                 $this->addFlash('success', 'Le mot de passe a bien été réinitialisé');
                 return $this->redirectToRoute('page_login');
             }
